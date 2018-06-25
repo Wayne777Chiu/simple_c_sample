@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define NULL ((void *)0)
+
 struct node {
 	char *name;
 	struct node *next;
@@ -22,7 +22,6 @@ void main()
 	B.name ="Cathy";
 	C.name ="gaubao";
 	D.name ="mimi";
-        alist.listnode =NULL;
         
         printf("node A address: %p\n",&A);
         printf("alist address %p\n",&alist);
@@ -39,8 +38,8 @@ void main()
         *tmp2 = &A;
         printf("list->node %p\n",&*tmp);
         printf("list->node %p (*tmp2)\n",*tmp2);
-        printf("nodeA -> name %s (*tmp2)-> name \n", (*tmp2)->name);
-        printf("list->node %p &*(alist.listnode)\n", &*(alist.listnode));
+        printf("nodeA -> name %s (*tmp2-> name)\n", (*tmp2)->name);
+        printf("list->node %p (alist-> listnode)\n", &*(alist.listnode));
         printf("node A name : %s \n",alist.listnode->name);
 #endif         
 	add_list_tail(&alist,&A);
@@ -59,25 +58,24 @@ void add_list_tail(struct list *i, struct node *new)
         //printf("**tmp is %d\n", **tmp);
 	printf("checkpoint1\n");
         printf("*tmp is %p\n", &*tmp);
-        if (!tmp) {
+        if (*tmp ==NULL) {
                printf("got the null data\n");
         }
 
-        printf("checkout bb\n");
 
 
-	for (tmp=(struct node **)i->listnode;!tmp; *tmp=(*tmp)->next)
+
+	for (tmp=(struct node **)i->listnode;*tmp==NULL; *tmp=(*tmp)->next)
 	{
-		if (!tmp){
+		if (*tmp==NULL){
 			printf("checkpoint2\n");
-			tmp = &new;
-                        printf("find this\n");
+			*tmp = new;
+                        new-> next =NULL;
                         printf("list -> node %p\n",&*tmp);
 			printf("checkpoint3\n");
 		}
 	}
 	//i->listnode = new;
-        printf("enter here?\n");
-	printf("alist first %s\n",(*(i->listnode))->name);
+	printf("alist first %s\n",i->listnode->name);
 
 }
