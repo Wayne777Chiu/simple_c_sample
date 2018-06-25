@@ -58,11 +58,12 @@ void add_list_tail(struct list *i, struct node *new)
         printf("tmp address %p i->listnode address %p another i address %p\n",&tmp, &(i->listnode), &i);
         //printf("**tmp is %d\n", **tmp);
 	printf("checkpoint1\n");
-        printf("*tmp is %p\n", &*tmp);
+        printf("&*tmp is %p\n", &*tmp);
+        //printf("*tmp is %p\n",*tmp);
         if (!tmp) {
                printf("got the null data\n");
         }
-
+        
         printf("checkout bb\n");
 
 
@@ -70,14 +71,16 @@ void add_list_tail(struct list *i, struct node *new)
 	{
 		if (!tmp){
 			printf("checkpoint2\n");
-			tmp = &new;
+			tmp = (struct node **)&new;
                         printf("find this\n");
-                        printf("list -> node %p\n",&*tmp);
+			printf("&*tmp: %p \n",&*tmp);
+                        printf("list -> node (*tmp)%p\n",*tmp);
+			printf("node->name (*tmp)->name) %s\n",(*tmp)-> name);
 			printf("checkpoint3\n");
 		}
 	}
 	//i->listnode = new;
         printf("enter here?\n");
-	printf("alist first %s\n",(*(i->listnode))->name);
+	printf("alist first %s\n",i->listnode->name);
 
 }
