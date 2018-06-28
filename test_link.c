@@ -10,7 +10,7 @@ struct list {
 };
 
 struct list alist;
-void add_list_tail(struct list *i, struct node *new);
+void add_list_tail2(struct list *i, struct node *new, struct node *new2);
 
 void main()
 {
@@ -25,13 +25,13 @@ void main()
 	C.name = "gaubao";
         C.next = NULL;
 	D.name = "mimi";
-        D.next = NULL
+        D.next = NULL;
         alist.listnode =NULL;
         
-        printf("node A address: %p\n",&A);
-        printf("node B address: %p\n",&B);
-        printf("alist address %p\n",&alist);
-        printf("&(alist.listnode) %p \n",&(alist.listnode));
+        printf("Node A address(&A): %p\n",&A);
+        printf("Node B address(&B): %p\n",&B);
+        printf("List alist address(&alist):  %p\n",&alist);
+        printf("List alist member Node listnode &(alist.listnode): %p \n",&(alist.listnode));
         printf("tmp2 address: %p\n",&tmp2);
         //alist.listnode = &A;
        // printf("list -> node %p\n",&*tmp);
@@ -57,29 +57,53 @@ void main()
         printf("nodeA -> name %s (*tmp2)-> name \n", (*tmp2)->name);
         printf("node A name : %s \n",alist.listnode->name);
 #endif         
-	add_list_tail(&alist,&A);
-        add_list_tail(&alist,&B);
+	add_list_tail2(&alist,&A, &B);
+        //add_list_tail(&alist,&B);
 	printf("the A %s\n",A.name);
 	printf("thelist A %s\n",alist.listnode->name);
 }
 
-void add_list_tail(struct list *i, struct node *new)
+void add_list_tail2(struct list *i, struct node *new, struct node *new2)
 {
         int j =0;
-	struct node **tmp;
+	struct node **ptr2;
         struct node *ptr;
+        
+        printf("\n");
 
-	tmp=(struct node **)&(i->listnode);
         //tmp = i->listnode;
         printf("----------------------\n");
-        printf(" new address (&new): %p\n",&new);
-        printf(" &*(i->listnode): %p\n",&*(i->listnode));
+        printf("Pointer i Address (point to struct list alist) (&i): %p\n",&i);
+        printf("List alist address:                           (&*i): %p\n",&*i);
+       
+        printf("Pointer new  Address (point to Node A) (&new): %p\n",&new);
+        printf("Node A address:                       (&*new): %p\n",&*new);
+        printf("Pointer new2 Address (Point to Node B)(&new2): %p\n",&new2);
+        printf("Node B address                       (&*new2): %p\n",&*new2);
+
+        ptr2=(struct node **)&(i->listnode);
+        
+        printf("We set a ** pointer(struct node **ptr2) to point i->listnode address\n");
+        printf("f: ptr2 = (struct node **)&(i->listnode)\n");
+        printf("1 level pointer context(*ptr2): %p\n",*ptr2);
+        printf(" (struct node **)&(i->listnode) address: %p\n",(struct node **)&(i->listnode));
+ 
         ptr = i -> listnode;
-        printf("tmp address %p i->listnode address %p another i address %p\n",&tmp, &(i->listnode), &i);
-        printf("&*tmp is %p\n", &*tmp);
-        printf("*tmp in function is: %p\n",*tmp);
+        printf("We set a * pointer(struct node *ptr) to point i->listnode\n");
+        printf("f: ptr = i->listnode\n");
+        printf(" &*(i->listnode): %p\n",&*(i->listnode));
+
+        
+        printf("xxxxxxxxxxxxxxxxxxxxxxxxx\n");
+        printf("DO");
+        printf("xxxxxxxxxxxxxxxxxxxxxxxxx\n");
+
+
+        printf("tmp address %p i->listnode address %p another i address %p\n",&ptr2, &(i->listnode), &i);
+        printf("&*tmp is %p\n", &*ptr2);
+        printf("*tmp in function is: %p\n",*ptr2);
         //printf("*tmp is %p\n",*tmp);
-        if(!(*tmp)) {
+        if(!(*ptr2)) {
                printf("got the null data\n");
                //*tmp = new;
                //(**tmp).next = NULL;
@@ -103,23 +127,23 @@ void add_list_tail(struct list *i, struct node *new)
         printf("=====================\n");
 
 
-	for (tmp=(struct node **)&(i->listnode);*tmp; ptr=(**tmp).next)
+	for (ptr2=(struct node **)&(i->listnode);*ptr2; ptr=(**ptr2).next)
 	{
-                printf(" &*tmp : %p to check update \n",&*tmp);
+                printf(" &*ptr2 : %p to check update \n",&*ptr2);
 		if (!ptr){
 			printf("checkpoint2\n");
-                        printf("&*tmp: %p \n",&*tmp);
+                        printf("&*ptr2: %p \n",&*ptr2);
                         printf(" &*(i->listnode): %p\n",&*(i->listnode));
 
                         //printf("(**tmp).name %s\n",(**tmp).name);
-			*tmp = new;
-                        (**tmp).next = NULL;
+			*ptr2 = new;
+                        (**ptr2).next = NULL;
                         printf("find this\n");
                         printf(" &*(i->listnode): %p\n",&*(i->listnode));
 
-			printf("&*tmp: %p \n",&*tmp);
-                        printf("list -> node (*tmp)%p\n",*tmp);
-			printf("node->name (*tmp)->name) %s\n",(*tmp)-> name);
+			printf("&*ptr2: %p \n",&*ptr2);
+                        printf("list -> node (*ptr2)%p\n",*ptr2);
+			printf("node->name (*tmp)->name) %s\n",(*ptr2)-> name);
 			printf("checkpoint3\n");
                         break;
                 }
