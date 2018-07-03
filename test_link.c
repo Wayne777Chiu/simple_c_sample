@@ -12,6 +12,7 @@ struct list {
 struct list alist;
 void static_add_list_tail(struct list *i, struct node *new, struct node *new2);
 void add_list_tail(struct list *i, struct node *new);
+void show_list(struct list *i);
 
 void main()
 {
@@ -60,8 +61,7 @@ void main()
 #endif         
 	//static_add_list_tail(&alist,&A, &B);
         add_list_tail(&alist,&A);
-	printf("the A %s\n",A.name);
-	printf("thelist A %s\n",alist.listnode->name);
+	add_list_tail(&alist,&B);
 }
 
 void static_add_list_tail(struct list *i, struct node *new, struct node *new2)
@@ -213,6 +213,19 @@ void add_list_tail(struct list *i, struct node *new)
              }
         }
 #endif
-        printf("I wander\n");      
-        printf("(**ptr).name: %s\n", (**ptr2).name);
+        show_list(i);
 }
+
+void show_list(struct list *i)
+{
+	struct node *ptr;
+	printf("\nThe List as below\n");
+	for (ptr = i->listnode; ptr;  ptr=(*ptr).next)
+	{
+		printf("Node Name: %s\n",(*ptr).name);
+	}
+}
+
+
+
+
