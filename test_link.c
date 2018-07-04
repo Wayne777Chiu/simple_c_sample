@@ -12,6 +12,7 @@ struct list {
 struct list alist;
 void static_add_list_tail(struct list *i, struct node *new, struct node *new2);
 void add_list_tail(struct list *i, struct node *new);
+void insert_node(struct node *prev, struct node *new);
 void show_list(struct list *i);
 
 void main()
@@ -24,9 +25,9 @@ void main()
         A.next = NULL;
 	B.name = "Cathy";
         B.next = NULL;
-	C.name = "gaubao";
+	C.name = "Gaubao";
         C.next = NULL;
-	D.name = "mimi";
+	D.name = "Mimi";
         D.next = NULL;
         alist.listnode =NULL;
         
@@ -35,33 +36,16 @@ void main()
         printf("List alist address(&alist):  %p\n",&alist);
         printf("List alist member Node listnode &(alist.listnode): %p \n",&(alist.listnode));
         printf("tmp2 address: %p\n",&tmp2);
-        //alist.listnode = &A;
-       // printf("list -> node %p\n",&*tmp);
+	
+        //static_add_list_tail(&alist,&A, &B);
+
 #if 0
-       // tmp = alist.listnode;
-       // tmp2 = &tmp;
-        //tmp2 = (struct node **)&(alist.listnode);
-        tmp2 = &(alist.listnode);
-
-        printf(" Below two will got same result: nil before setting value\n");
-        printf("*tmp2: &(alist.listnode) %p \n",*tmp2);
-        printf("*&(alist.listnode)):: %p\n", *&(alist.listnode));
-        printf("&*tmp2: %p\n",&*tmp2);   
-
-        *tmp2 = &A;
-        printf("After value given with  A's address: (*tmp2=&A)\n");
-        printf("alist->listnode pointer to node A address (*tmp2): &(alist.listnode) %p \n",*tmp2);
-        printf("*&(alist.listnode)):: %p\n", *&(alist.listnode));
-        printf("alist->listnode pointer to node A address&*(alist.listnode):%p\n", &*(alist.listnode));
-  
-        //printf("list->node %p\n",&*tmp);
-        printf("--------------\n");
-        printf("nodeA -> name %s (*tmp2)-> name \n", (*tmp2)->name);
-        printf("node A name : %s \n",alist.listnode->name);
-#endif         
-	//static_add_list_tail(&alist,&A, &B);
         add_list_tail(&alist,&A);
 	add_list_tail(&alist,&B);
+        add_list_tail(&alist,&C);
+        add_list_tail(&alist,&D);
+#endif
+
 }
 
 void static_add_list_tail(struct list *i, struct node *new, struct node *new2)
@@ -182,40 +166,73 @@ void add_list_tail(struct list *i, struct node *new)
 
         printf("\n");
         printf("              -----------------         -----------------\n");
-        printf("--> list i ->|      Node xxx   |    -> |      Node new   | \n");
+        printf("--> list i ->|      Node xxx   |    -> |      Node new   |     -> ....\n");
         printf("              -----------------         -----------------\n");
         printf("             | m: name: Wayne  |       | m: name: Cathy  | \n");
         printf("              -----------------         -----------------\n");
-        printf("             | m: next: pointer|    -> | m: next: pointer| \n");
+        printf("             | m: next: pointer|    -> | m: next: pointer|     -> ....\n");
         printf("              -----------------         -----------------\n");
         printf("\n");
 
         printf(" USE for to set new node\n");
-        
+
+#if 0
+        printf(" \nWe set ptr2 point to first node address &(i->listnode)\n");
+        printf("f:  ptr2 = &(i->listnode);\n");
         ptr2 = &(i->listnode);
         do {
-             if (!(*ptr2)) {
-                 printf("we got *ptr2 : %p",*ptr2);
-
-                 *ptr2 = new;
-                 printf("we got *ptr2 : %p",*ptr2);
+             if (*ptr2) {
+                 ptr2 = &(**ptr2).next;
              }
-             ptr2 = &((**ptr2).next);
+             if (!(*ptr2)) {
+                 *ptr2 = new;
+                 ptr2 = &(**ptr2).next;
+             }
         } while (*ptr2);
 
-
-#if 0 
-        for ( ptr2 =&(i->listnode); ptr2; ptr2 = &((**ptr2).next))
+#else 
+        printf("\nWe set ptr2 pointer first node address and check which pointer to NULL\n");
+        
+        for ( ptr2 =&(i->listnode); *ptr2; ptr2 = &((**ptr2).next))
         {
-             if (!(*ptr2)){
-                 *ptr2 = new;
-                 break;
-             }
+            ;
         }
+        printf("After scan to last next which point to NULL, we set to point new node\n");
+        if (!*ptr2) {
+            *ptr2 = new;
+        }
+
 #endif
         show_list(i);
 }
+void insert_node(struct node *prev, struct node *new)
+{
+        
+        printf("----------------------\n");
+        printf("In %s function\n",__func__ );
+        printf("----------------------\n");
+        printf("Our purpose is to insert node to  link-list structure as below:\n");
+        printf("\n");
+        printf("   -----------------         -----------------\n");
+        printf("  |      Node prev  |    -> |      Node next  |     -> ....\n");
+        printf("   -----------------         -----------------\n");
+        printf("  | m: name: Wayne  |       | m: name: Gaubao | \n");
+        printf("   -----------------         -----------------\n");
+        printf("  | m: next: pointer|    -> | m: next: pointer|     -> ....\n");
+        printf("   -----------------         -----------------\n");
+        printf("\n");
+        printf("   -----------------         -----------------          -----------------  \n");
+        printf("  |      Node prev  |    -> |      Node new   |     -> |      Node next  |  -> ...\n");
+        printf("   -----------------         -----------------          ----------------- \n");
+        printf("  | m: name: Wayne  |       | m: name: Cathy  |        | m: name: Gaubao | \n");
+        printf("   -----------------         -----------------          ----------------- \n");
+        printf("  | m: next: pointer|    -> | m: next: pointer|     -> | m: next: pointer|  -> ....\n");
+        printf("   -----------------         -----------------          -----------------\n");
+        printf("\n");
 
+
+
+}
 void show_list(struct list *i)
 {
 	struct node *ptr;
