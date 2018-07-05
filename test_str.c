@@ -51,12 +51,29 @@ void diff_ptr_n_array(char *ptr, char *arrptr)
     printf("B: array string   (char arr_string[4]= \"ABCD\";) (arrptr)\n");
     printf("1. Change one char ex. array[1], *(ptr+1)\n");
     printf("   Let the char on index 1 position to become '2'\n");
-    arrptr[1] = '2';
+   
     printf("f: arr_string[1] = '2'; \n");
+    arrptr[1] = '2';
     printf(" printf the string (arrptr): %s\n", arrptr);
-    *(arrptr + 1) = '3';
+
     printf("f: *(arr_string +1) = '3'\n");
-    printf(" printf the string (arrptr): %s\n", arrptr);   
+    *(arrptr + 1) = '3';
+    printf(" printf the string (arrptr): %s\n", arrptr);
+
+#if 1 
+    printf("f: ptr_string[1] = '2'; \n");
+    ptr[1] = '2';
+    printf(" printf the string (ptr): %s\n", ptr);
+    printf("Error: Segmentation fault (core dumped)\n");
+#endif
+
+    printf("f: *(ptr +1) = '3'\n");
+    *(ptr + 1) = '3';
+    printf(" printf the string (ptr): %s\n", ptr);
+    printf("\n");
+    printf("Error: Segmentation fault (core dumped)\n");
+
+ 
 }
 void one_ptr(char *s)
 {
