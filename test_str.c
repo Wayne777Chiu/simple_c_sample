@@ -60,21 +60,32 @@ void diff_ptr_n_array(char *ptr, char *arrptr)
     *(arrptr + 1) = '3';
     printf(" printf the string (arrptr): %s\n", arrptr);
 
-#if 1 
+
+    printf("If you use the *ptr as string for clarm,\n");
+    printf("you will got error. ex. below is sample\n");     
     printf("f: ptr_string[1] = '2'; \n");
+#if 0
     ptr[1] = '2';
     printf(" printf the string (ptr): %s\n", ptr);
-    printf("Error: Segmentation fault (core dumped)\n");
 #endif
+    printf("Error: Segmentation fault (core dumped)\n");
 
+    printf("If you use the *ptr as string for clarm,\n");     
+    printf("you will got error. ex. below is sample\n"); 
     printf("f: *(ptr +1) = '3'\n");
+#if 0
     *(ptr + 1) = '3';
     printf(" printf the string (ptr): %s\n", ptr);
-    printf("\n");
+#endif
     printf("Error: Segmentation fault (core dumped)\n");
 
- 
+    printf("But if we really want to update\n");
+    char **pptr;
+    pptr = &(s+1);
+    dxsce
+
 }
+
 void one_ptr(char *s)
 {
     int len = strlen(s);
