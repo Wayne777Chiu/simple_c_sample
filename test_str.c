@@ -4,13 +4,13 @@
 #include <stdlib.h>
 
 void one_ptr(char *s);
-void diff_ptr_n_array(char *ptr, char *arrptr);
+void diff_ptr_n_array(char *ptr, char *arr_s_ptr, char *arr_n_ptr);
 
 void main()
 {
     char *ptr_string="abcd";
-    char arr_string[4]= "ABCD";
-
+    char arr_string_with_size[5]= "ABCD";
+    char arr_string_without_size[]="HIJK";
 
     char *str="abcd";
     char *conver="1234",p;
@@ -20,7 +20,7 @@ void main()
     //one_ptr(anstr);
     //one_ptr(str);
 
-    diff_ptr_n_array(ptr_string, arr_string);
+    diff_ptr_n_array(ptr_string, arr_string_with_size, arr_string_without_size);
 
 #if 0
     len = strlen(str);
@@ -43,43 +43,62 @@ void main()
     //printf("this is %s\n", conver);
 #endif
 }
-void diff_ptr_n_array(char *ptr, char *arrptr)
+void diff_ptr_n_array(char *ptr, char *arr_s_ptr, char *arr_n_ptr)
 {
     printf("FUNCTION: %s \n",__func__);
     printf("In this part, we explain the different between pointer string & array string\n");
     printf("We set two string to descript:\n");
     printf("A: pointer string (char *ptr_string=\"abcd\";): %s\n",ptr);
-    printf("B: array string   (char arr_string[4]= \"ABCD\";) (arrptr): %s\n", arrptr);
-    printf("1. Change one char ex. array[1], *(ptr+1)\n");
-    printf("   Let the char on index 1 position to become '2'\n");
-   
-    printf("f: arr_string[1] = '2'; \n");
-    arrptr[1] = '2';
-    printf(" printf the string (arrptr): %s\n", arrptr);
+    printf("B: array string   (char arr_string_with_size[5]= \"ABCD\";) (arr_s_ptr)): %s\n", arr_s_ptr);
+    printf("C: array string   (char arr_string_without_size[]= \"HIJK\";) (arr_n_ptr)): %s\n", arr_n_ptr);
 
-    printf("f: *(arr_string +1) = '3'\n");
-    *(arrptr + 1) = '3';
-    printf(" printf the string (arrptr): %s\n", arrptr);
+    printf("1. Change one char ex. array[1], *(ptr+1)\n");
+    printf("   Let the char on index 1 position to become '2' or '3'\n");
+   
+    printf("   f: arr_string_with_size[1] = '2'; \n");
+    arr_s_ptr[1] = '2';
+    printf("      printf the string (arr_s_ptr): %s\n", arr_s_ptr);
+
+    printf("   f: *(arr_string_with_size +1) = '3'\n");
+    *(arr_s_ptr + 1) = '3';
+    printf("      printf the string (arr_s_ptr): %s\n", arr_s_ptr);
+
+    printf("   f: arr_string_without_size[1] = '2'; \n");
+    arr_n_ptr[1] = '2';
+    printf("      printf the string (arr_n_ptr): %s\n", arr_n_ptr);
+
+    printf("   f: *(arr_string_without_size +1) = '3'\n");
+    *(arr_n_ptr + 1) = '3';
+    printf("      printf the string (arr_n_ptr): %s\n", arr_n_ptr);
 
 
     printf("If you use the *ptr as string for clarm,\n");
     printf("you will got error. ex. below is sample\n");     
-    printf("f: ptr_string[1] = '2'; \n");
-    printf("Or\n");
-    printf("f: *(ptr +1) = '3'\n");
-#if 0
+    printf("   f: ptr_string[1] = '2'; \n");
+    printf("   Or\n");
+    printf("   f: *( ptr_string +1) = '3'\n");
+   
+#if 0 
     ptr[1] = '2';
-    printf(" printf the string (ptr): %s\n", ptr);
-
+    printf("     printf the string (ptr): %s\n", ptr);
+    
     *(ptr + 1) = '3';
-    printf(" printf the string (ptr): %s\n", ptr);
+    printf("     printf the string (ptr): %s\n", ptr);
+
 #endif
-    printf("We got same result: (Segmentation fault)\n");
-    printf("!!!Error: Segmentation fault (core dumped)\n");
+    printf("   We got same result: (Segmentation fault)\n");
+    printf("   !!!Error: Segmentation fault (core dumped)\n");
+    
+    printf("2. Copy total string\n");
+    printf("   We set the new string arrstr1\n");
+    
     
     char *ptr2 = ptr;
     char *ptr3 = "HDMI";
-    *ptr++ = *ptr3++;
+    printf("NOw, we try the strcpy for copy by one unit\n");
+    strcpy(ptr2, ptr3);
+    printf("the cp data %s %s \n",ptr2,ptr3);
+    *(ptr++) = *(ptr3++);
     printf("rsult is %s\n",ptr2);
 
     printf("another method Dynamic string (malloc) \n");
